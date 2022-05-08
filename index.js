@@ -1,33 +1,23 @@
+const app = require("express")();
 const express = require("express");
+const http = require("http").Server(app);
+const io = require("socket.io")(http);
 const path = require("path");
+const port = process.env.PORT || 2512;
 
-const app = express();
-const server = require("http").createServer(app);
-
-var cors = require('cors')
-app.use(cors())
-
-const io = require("socket.io")(server);
-
-app.use(express.static(path.join(__dirname + "/public")));
-
-io.on("connection", function(socket){
-	socket.on("sender-join",function(data){
-		socket.join(data.uid);
-	});
-	socket.on("receiver-join",function(data){
-		socket.join(data.uid);
-		socket.in(data.sender_uid).emit("init", data.uid);
-	});
-	socket.on("file-meta",function(data){
-		socket.in(data.uid).emit("fs-meta", data.metadata);
-	});
-	socket.on("fs-start",function(data){
-		socket.in(data.uid).emit("fs-share", {});
-	});
-	socket.on("file-raw",function(data){
-		socket.in(data.uid).emit("fs-share", data.buffer);
-	})
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/index.html");
 });
 
-server.listen(5000);
+io.on("connection", (socket) => {
+  socket.on("chat message", (msg) => {
+    io.emit("chat message", msg);
+  });
+});
+
+//config public resources
+app.use("/public", express.static(path.join(__dirname, "/public")));
+
+http.listen(port, () => {
+  console.log(`Socket.IO server running at http://localhost:${port}/`);
+});
