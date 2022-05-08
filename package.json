@@ -2,16 +2,12 @@
   "engines": {
     "node": "14.x"
   },
-  "name": "real-time-file-sharing-app",
+  "name": "OK",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/nc-minh/real-time-file-sharing-app.git"
   },
   "keywords": [
     "ncm",
@@ -20,10 +16,6 @@
   ],
   "author": "ncm",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/nc-minh/real-time-file-sharing-app/issues"
-  },
-  "homepage": "https://github.com/nc-minh/real-time-file-sharing-app#readme",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.3",
